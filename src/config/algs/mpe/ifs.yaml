@@ -1,0 +1,71 @@
+name: "ifs"
+on_policy: True
+action_selector: "soft_policies"
+mask_before_softmax: True
+
+runner: "parallel"
+
+buffer_size: 256
+batch_size_run: 8
+batch_size: 256
+
+save_extra_stats: False
+
+obs_agent_id: True
+obs_last_action: True # پشتیبانی از آخرین اکشن هم‌تیمی‌ها برای ساخت رکوردهای اتمیک
+obs_state: False 
+obs_individual_obs: False 
+obs_team_composition: False
+
+agent_output_type: "pi_logits"
+learner: "ifs_learner"
+mac: "agent_owned_mac"
+agent: "ifs_agent"
+critic_type: "ifs_critic"
+
+ed_pretrain_ts: 0
+ed_pretrain_epochs: 10 # 0
+ed_grad_norm_clip: 0.5 #5
+ed_model_uncontrolled_only: False
+
+# --- IFS Specific Parameters ---
+ifs_lr: 0.0003 
+n_train_slots: 5 
+message_dim: 64
+fused_dim: 128 
+availability_prob: 0.7
+
+entropy_coef: 0.01 
+grad_norm_clip: 0.5 
+standardise_rewards: True
+use_gae: True 
+gae_lambda: 0.95
+q_nstep: 5 
+gamma: 0.99
+
+epochs: 5
+n_minibatch: 2 
+embed_dim: 128 # 64
+eps_clip: 0.2 
+lr: 0.0003 
+critic_lr: 0.0003
+optim_alpha: 0.99
+optim_eps: .00001
+
+use_popart: False 
+clip_value_loss: True 
+use_huber_loss: True
+huber_delta: 1.0
+use_adv_std: True 
+use_obs_norm: True 
+use_orthogonal_init: True 
+
+trainable_agents_mask_actor: True 
+trainable_agents_mask_critic: False 
+mask_type: "team" 
+
+# --- Open train Parameters ---
+trained_agents:
+  agent_0:
+    agent_loader: ifs_train_agent_loader
+    agent_path: ""
